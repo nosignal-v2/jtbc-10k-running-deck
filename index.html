@@ -1,0 +1,1281 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="최근 러닝 기록을 바탕으로 정리한 JTBC 10km 준비 HTML 슬라이드 덱">
+  <meta property="og:title" content="JTBC 10km 준비 덱">
+  <meta property="og:description" content="10km 완주 이후 55분 목표를 준비하는 20주 운영 요약">
+  <title>JTBC 10km 준비 덱</title>
+  <style>
+    @font-face {
+      font-family: "Inter";
+      font-weight: 100 900;
+      font-style: normal;
+      font-display: swap;
+      src: url("https://rsms.me/inter/font-files/InterVariable.woff2") format("woff2-variations");
+    }
+
+    @font-face {
+      font-family: "Pretendard Variable";
+      font-weight: 45 920;
+      font-style: normal;
+      font-display: swap;
+      src: url("https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/variable/woff2/PretendardVariable.woff2") format("woff2-variations");
+    }
+
+    :root {
+      --bg: #07080a;
+      --ink: #f4f4f6;
+      --body-strong: #d3d3d4;
+      --muted: #cdcdcd;
+      --soft: #9c9c9d;
+      --soft-2: #6a6b6c;
+      --stone: #434345;
+      --line: #242728;
+      --line-soft: rgba(255, 255, 255, 0.08);
+      --line-strong: rgba(255, 255, 255, 0.16);
+      --surface: #0d0d0d;
+      --surface-elevated: #101111;
+      --surface-soft: #101111;
+      --surface-strong: #121212;
+      --surface-card: #18191a;
+      --dark: #07080a;
+      --dark-elevated: #101111;
+      --dark-soft: #0d0d0d;
+      --primary: #ffffff;
+      --primary-active: #e8e8e8;
+      --primary-soft: rgba(255, 255, 255, 0.08);
+      --amber: #ffc533;
+      --teal: #59d499;
+      --teal-2: rgba(89, 212, 153, 0.15);
+      --teal-3: rgba(89, 212, 153, 0.08);
+      --orange: #ff6161;
+      --orange-2: rgba(255, 97, 97, 0.15);
+      --blue: #57c1ff;
+      --blue-2: rgba(87, 193, 255, 0.15);
+      --stripe-start: #ff5757;
+      --stripe-end: #a1131a;
+      --shadow: none;
+      --font: Inter, "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Segoe UI", system-ui, sans-serif;
+      --display: var(--font);
+      --mono: "JetBrains Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+      --num: var(--font);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font);
+      font-feature-settings: "calt", "kern", "liga", "ss03";
+      text-rendering: geometricPrecision;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    #deck {
+      display: flex;
+      width: max-content;
+      height: 100svh;
+      background: var(--bg);
+      transition: transform 0.34s ease;
+    }
+
+    .slide {
+      position: relative;
+      width: 100vw;
+      height: 100svh;
+      padding: 38px 72px 58px;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 28px;
+      overflow: hidden;
+      background: var(--bg);
+    }
+
+    .slide::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 1px;
+      background: var(--line);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .cover::before {
+      opacity: 1;
+      height: 220px;
+      background:
+        linear-gradient(112deg, transparent 0 10%, rgba(255, 87, 87, 0.84) 10% 16%, transparent 16% 27%, rgba(213, 35, 42, 0.68) 27% 33%, transparent 33% 44%, rgba(161, 19, 26, 0.58) 44% 50%, transparent 50%),
+        linear-gradient(to bottom, rgba(255, 97, 97, 0.18), rgba(255, 97, 97, 0));
+      mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.72) 36%, transparent 100%);
+    }
+
+    .cover::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 1px;
+      background: var(--line-strong);
+      pointer-events: none;
+    }
+
+    .topbar,
+    .foot {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      color: var(--soft);
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .topbar {
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 14px;
+    }
+
+    .kicker {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
+    }
+
+    .kicker::before {
+      content: "⌘";
+      display: inline-block;
+      min-width: 24px;
+      margin-right: 10px;
+      padding: 2px 6px;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      background: linear-gradient(180deg, var(--surface-strong), var(--surface));
+      color: var(--body-strong);
+      font-size: 12px;
+      line-height: 1.2;
+      text-align: center;
+    }
+
+    .page {
+      font-family: var(--num);
+      font-size: 13px;
+      color: var(--soft);
+      font-feature-settings: "tnum", "calt", "kern", "liga", "ss03";
+    }
+
+    .foot {
+      border-top: 1px solid var(--line);
+      padding-top: 14px;
+      padding-bottom: 0;
+      font-size: 11px;
+      font-weight: 500;
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      align-content: center;
+      gap: 26px;
+      min-height: 0;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin: 0;
+    }
+
+    h1 {
+      max-width: 760px;
+      font-size: 64px;
+      line-height: 1.1;
+      font-family: var(--display);
+      font-weight: 600;
+      letter-spacing: 0.2px;
+      font-feature-settings: "calt", "kern", "ss02", "ss03", "ss08", "liga" 0;
+    }
+
+    h2 {
+      max-width: 1040px;
+      font-size: 44px;
+      line-height: 1.17;
+      font-family: var(--display);
+      font-weight: 500;
+      letter-spacing: 0.2px;
+    }
+
+    h3 {
+      font-size: 20px;
+      line-height: 1.4;
+      font-weight: 500;
+      letter-spacing: 0.2px;
+    }
+
+    .lead {
+      max-width: 930px;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.6;
+    }
+
+    .cover-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 292px;
+      gap: 54px;
+      align-items: start;
+    }
+
+    .hero-copy {
+      display: grid;
+      gap: 24px;
+      padding-left: 0;
+    }
+
+    .judgement {
+      margin-top: 34px;
+      padding: 24px 26px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--surface);
+      color: var(--ink);
+      box-shadow: none;
+    }
+
+    .judgement ul {
+      margin: 18px 0 0;
+      padding-left: 18px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 24px;
+    }
+
+    .kpi,
+    .card,
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--surface);
+      box-shadow: none;
+    }
+
+    .kpi {
+      min-height: 126px;
+      padding: 18px 20px;
+      background: var(--surface);
+    }
+
+    .label {
+      color: var(--soft);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.4px;
+    }
+
+    .value {
+      display: block;
+      margin-top: 8px;
+      color: var(--ink);
+      font-family: var(--num);
+      font-size: 42px;
+      line-height: 1;
+      font-weight: 600;
+      font-feature-settings: "tnum", "calt", "kern", "liga", "ss03";
+    }
+
+    .value.orange {
+      color: var(--orange);
+    }
+
+    .value.blue {
+      color: var(--blue);
+    }
+
+    .detail {
+      display: block;
+      margin-top: 9px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1.35fr 0.8fr;
+      gap: 38px;
+      align-items: stretch;
+    }
+
+    .chart-panel {
+      padding: 30px 40px 22px;
+      background: var(--surface);
+      color: var(--ink);
+      border-color: var(--line);
+    }
+
+    .chart-panel h3 {
+      color: var(--ink);
+    }
+
+    .bar-chart {
+      display: grid;
+      grid-template-columns: 54px repeat(3, minmax(0, 1fr));
+      grid-template-rows: 1fr auto;
+      gap: 12px 24px;
+      height: 250px;
+      margin-top: 28px;
+    }
+
+    .axis {
+      grid-row: 1 / 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: flex-end;
+      color: var(--soft);
+      font-family: var(--num);
+      font-size: 12px;
+      border-right: 1px solid var(--line-strong);
+      padding-right: 10px;
+    }
+
+    .bar-slot {
+      position: relative;
+      grid-row: 1 / 2;
+      display: grid;
+      align-items: end;
+      justify-items: center;
+      border-bottom: 1px solid var(--line-strong);
+      background:
+        linear-gradient(to bottom, transparent 24%, var(--line-soft) 24%, var(--line-soft) calc(24% + 1px), transparent calc(24% + 1px)),
+        linear-gradient(to bottom, transparent 49%, var(--line-soft) 49%, var(--line-soft) calc(49% + 1px), transparent calc(49% + 1px)),
+        linear-gradient(to bottom, transparent 74%, var(--line-soft) 74%, var(--line-soft) calc(74% + 1px), transparent calc(74% + 1px));
+    }
+
+    .bar {
+      width: 56%;
+      min-width: 46px;
+      border-radius: 4px 4px 0 0;
+      background: var(--primary);
+    }
+
+    .bar-label {
+      grid-row: 2 / 3;
+      justify-self: center;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .chart-note {
+      margin-top: 10px;
+      color: var(--soft);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .side-stack {
+      display: grid;
+      gap: 16px;
+    }
+
+    .metric-row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .signal-card {
+      min-height: 92px;
+      padding: 18px 22px 18px 26px;
+      border-left: 4px solid var(--teal);
+      background: var(--surface-soft);
+      border-color: var(--line);
+      box-shadow: none;
+    }
+
+    .signal-card.warn {
+      border-left-color: var(--orange);
+      background: var(--surface-soft);
+      border-color: var(--line);
+    }
+
+    .signal-card p {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .signal-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 34px;
+      align-items: stretch;
+    }
+
+    .signal-column {
+      display: grid;
+      gap: 14px;
+    }
+
+    .signal-column > h3 {
+      color: var(--ink);
+      font-size: 23px;
+      font-family: var(--display);
+      font-weight: 500;
+    }
+
+    .signal-column.risk > h3 {
+      color: var(--orange);
+    }
+
+    .signal-column.ops > h3 {
+      color: var(--blue);
+    }
+
+    .mini-card {
+      min-height: 70px;
+      padding: 15px 18px;
+      display: grid;
+      grid-template-columns: 104px 1fr;
+      gap: 10px;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface-soft);
+    }
+
+    .risk .mini-card {
+      background: var(--surface-soft);
+    }
+
+    .ops .mini-card {
+      background: var(--surface-soft);
+    }
+
+    .mini-title {
+      color: var(--teal);
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .risk .mini-title {
+      color: var(--orange);
+    }
+
+    .ops .mini-title {
+      color: var(--blue);
+    }
+
+    .mini-body {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .phase-row {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .phase {
+      min-height: 238px;
+      padding: 32px 20px 18px;
+      position: relative;
+      overflow: hidden;
+      background: var(--surface);
+    }
+
+    .phase::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 3px;
+      background: var(--phase-color, var(--teal));
+    }
+
+    .phase h3 {
+      min-height: 52px;
+      font-family: var(--display);
+      font-size: 28px;
+      font-weight: 500;
+    }
+
+    .date {
+      margin-top: 8px;
+      color: var(--soft);
+      font-family: var(--num);
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .phase p {
+      min-height: 66px;
+      margin-top: 22px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .pill {
+      display: inline-flex;
+      min-height: 30px;
+      padding: 6px 14px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 9999px;
+      border: 1px solid var(--line-strong);
+      background: var(--surface-elevated, var(--surface-soft));
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.2px;
+    }
+
+    .pill.orange {
+      background: var(--primary);
+      color: #000000;
+      border-color: var(--primary);
+    }
+
+    .progression {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 16px;
+      align-items: center;
+      padding: 22px 28px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--surface);
+      color: var(--ink);
+    }
+
+    .progression strong {
+      font-size: 16px;
+    }
+
+    .progression span {
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .lane-row {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 28px;
+    }
+
+    .lane {
+      min-height: 170px;
+      padding: 20px 28px;
+      background: var(--surface);
+    }
+
+    .lane h3 {
+      margin-top: 22px;
+      font-size: 21px;
+      font-family: var(--display);
+      font-weight: 500;
+      white-space: pre-line;
+    }
+
+    .lane p {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.5;
+      white-space: pre-line;
+    }
+
+    .rule-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px 24px;
+    }
+
+    .rule {
+      min-height: 68px;
+      padding: 16px 22px 16px 28px;
+      border-left: 4px solid var(--primary);
+      background: var(--surface);
+    }
+
+    .rule.blue {
+      border-left-color: var(--blue);
+    }
+
+    .rule.orange {
+      border-left-color: var(--orange);
+    }
+
+    .rule p {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .week-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 40px;
+    }
+
+    .week {
+      min-height: 322px;
+      padding: 34px 40px 24px;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 20px;
+      background: var(--surface);
+    }
+
+    .week ul {
+      margin: 0;
+      padding-left: 22px;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+    .tracker {
+      display: grid;
+      grid-template-columns: 108px 1fr;
+      gap: 20px;
+      align-items: center;
+      min-height: 60px;
+      padding: 16px 30px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--surface);
+    }
+
+    .tracker strong {
+      color: var(--ink);
+      font-size: 17px;
+    }
+
+    .tracker span {
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    #nav-dots {
+      position: fixed;
+      right: 24px;
+      top: 50%;
+      z-index: 20;
+      display: grid;
+      gap: 8px;
+      transform: translateY(-50%);
+    }
+
+    #nav-dots button {
+      width: 10px;
+      height: 10px;
+      padding: 0;
+      border: 1px solid var(--line-strong);
+      border-radius: 9999px;
+      background: var(--surface);
+      cursor: pointer;
+    }
+
+    #nav-dots button.is-active {
+      border-color: var(--primary);
+      background: var(--primary);
+    }
+
+    #counter {
+      position: fixed;
+      right: 24px;
+      bottom: 18px;
+      z-index: 20;
+      padding: 4px 8px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: linear-gradient(180deg, var(--surface-strong), var(--surface));
+      color: var(--muted);
+      font-family: var(--num);
+      font-size: 12px;
+      font-weight: 500;
+      font-feature-settings: "tnum", "calt", "kern", "liga", "ss03";
+    }
+
+    [data-anim] {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+
+    .slide.is-active [data-anim] {
+      animation: rise 0.45s ease forwards;
+      animation-delay: calc(var(--delay, 0) * 0.06s);
+    }
+
+    @keyframes rise {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #deck,
+      [data-anim],
+      .slide.is-active [data-anim] {
+        transition: none;
+        animation: none;
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    @media (max-width: 980px) {
+      html {
+        overflow-x: hidden;
+      }
+
+      body {
+        overflow-x: hidden;
+        overflow-y: auto;
+      }
+
+      #deck {
+        height: auto;
+      }
+
+      .slide {
+        min-height: 100svh;
+        height: auto;
+        padding: 34px 36px 72px;
+        overflow: visible;
+      }
+
+      h1 {
+        font-size: 44px;
+      }
+
+      h2 {
+        font-size: 30px;
+      }
+
+      .cover-grid,
+      .two-col,
+      .signal-grid,
+      .week-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .kpi-row,
+      .phase-row,
+      .lane-row,
+      .rule-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .judgement {
+        margin-top: 0;
+      }
+
+      .phase,
+      .lane,
+      .week {
+        min-height: auto;
+      }
+
+      #nav-dots {
+        right: 12px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .slide {
+        padding: 28px 22px 72px;
+        gap: 18px;
+      }
+
+      h1 {
+        font-size: 38px;
+      }
+
+      h2 {
+        font-size: 26px;
+      }
+
+      .lead {
+        font-size: 16px;
+      }
+
+      .kpi-row,
+      .phase-row,
+      .lane-row,
+      .rule-grid,
+      .metric-row {
+        grid-template-columns: 1fr;
+      }
+
+      .bar-chart {
+        grid-template-columns: 40px repeat(3, minmax(0, 1fr));
+        gap: 10px;
+        height: 210px;
+      }
+
+      .mini-card,
+      .progression,
+      .tracker {
+        grid-template-columns: 1fr;
+      }
+
+      .foot {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 6px;
+      }
+    }
+
+    @media print {
+      html,
+      body {
+        height: auto;
+        overflow: visible;
+      }
+
+      #deck {
+        display: block;
+        width: auto;
+        height: auto;
+        transform: none !important;
+      }
+
+      .slide {
+        width: 100%;
+        height: 100vh;
+        page-break-after: always;
+      }
+
+      #nav-dots,
+      #counter {
+        display: none;
+      }
+
+      [data-anim] {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main id="deck">
+    <section class="slide cover">
+      <header class="topbar">
+        <span class="kicker">2026-11-01 JTBC MARATHON · 10km</span>
+        <span class="page">01</span>
+      </header>
+      <div class="content">
+        <div class="cover-grid">
+          <div class="hero-copy">
+            <h1 data-anim>10km는 뛰었어요<br>이제 55분을 준비해요</h1>
+            <p class="lead" data-anim style="--delay: 1">목표는 2026-11-01 JTBC 10km를 55:00 안에 뛰는 거예요. 지금은 빠르게 뛰기보다, 낮은 심박으로 꾸준히 반복하는 게 중요해요.</p>
+          </div>
+          <aside class="judgement" data-anim style="--delay: 2">
+            <h3>지금 할 일</h3>
+            <ul>
+              <li>10km 완주는 확인했어요</li>
+              <li>다음 목표는 5:30/km예요</li>
+              <li>6~7월은 베이스를 만들어요</li>
+              <li>발목이 불편하면 강도를 낮춰요</li>
+            </ul>
+          </aside>
+        </div>
+        <div class="kpi-row" data-anim style="--delay: 3">
+          <article class="kpi">
+            <span class="label">현재 기록</span>
+            <span class="value">10.02km</span>
+            <span class="detail">06-13 · 발목 통증 없음</span>
+          </article>
+          <article class="kpi">
+            <span class="label">목표 기록</span>
+            <span class="value orange">55:00</span>
+            <span class="detail">10km 55분 안에 뛰기</span>
+          </article>
+          <article class="kpi">
+            <span class="label">목표 페이스</span>
+            <span class="value orange">5:30/km</span>
+            <span class="detail">1km를 5분 30초에 뛰기</span>
+          </article>
+          <article class="kpi">
+            <span class="label">준비 기간</span>
+            <span class="value blue">20주</span>
+            <span class="detail">베이스 → 빌드 → 테이퍼</span>
+          </article>
+        </div>
+      </div>
+      <footer class="foot">
+        <span>Sources: 2026-06-13 Daily; JTBC Dashboard; Training Plan; Race Strategy</span>
+        <span>러닝 기록 기반 HTML 슬라이드</span>
+      </footer>
+    </section>
+
+    <section class="slide">
+      <header class="topbar">
+        <span class="kicker">Recent Logs</span>
+        <span class="page">02</span>
+      </header>
+      <div class="content">
+        <div>
+          <h2 data-anim>거리는 늘었어요. 이제 심박과 회복을 봐요</h2>
+          <p class="lead" data-anim style="--delay: 1">6월에는 5.14km에서 10.02km까지 늘렸어요. 다음 목표는 같은 거리를 더 편하게 뛰는 거예요.</p>
+        </div>
+        <div class="two-col">
+          <article class="panel chart-panel" data-anim style="--delay: 2">
+            <h3>거리 변화</h3>
+            <div class="bar-chart" aria-label="러닝 거리 진행 막대 차트">
+              <div class="axis"><span>12</span><span>9</span><span>6</span><span>3</span><span>0</span></div>
+              <div class="bar-slot"><div class="bar" style="height: 42.8%" title="06-06: 5.14km"></div></div>
+              <div class="bar-slot"><div class="bar" style="height: 61.6%" title="06-07: 7.39km"></div></div>
+              <div class="bar-slot"><div class="bar" style="height: 83.5%" title="06-13: 10.02km"></div></div>
+              <span></span><span class="bar-label">06-06</span><span class="bar-label">06-07</span><span class="bar-label">06-13</span>
+            </div>
+            <p class="chart-note">06-13의 핵심은 기록보다 발목이 괜찮았다는 점이에요.</p>
+          </article>
+          <div class="side-stack" data-anim style="--delay: 3">
+            <div class="metric-row">
+              <article class="kpi">
+                <span class="label">06-07 HR</span>
+                <span class="value orange">157</span>
+                <span class="detail">bpm · 7.39km</span>
+              </article>
+              <article class="kpi">
+                <span class="label">06-13 HR</span>
+                <span class="value orange">155</span>
+                <span class="detail">bpm · 10.02km</span>
+              </article>
+            </div>
+            <article class="card signal-card">
+              <h3>좋은 점</h3>
+              <p>10.02km를 뛰고도 발목 통증이 없었어요. 끝나고도 여유가 남았어요.</p>
+            </article>
+            <article class="card signal-card warn">
+              <h3>주의할 점</h3>
+              <p>06-07에는 발목 잠김이 있었고, 06-14에는 피로가 크게 왔어요.</p>
+            </article>
+          </div>
+        </div>
+      </div>
+      <footer class="foot">
+        <span>Sources: 2026-06-06 Daily; 2026-06-07 Daily; 2026-06-13 Daily; Running Log</span>
+        <span>02 / 06</span>
+      </footer>
+    </section>
+
+    <section class="slide">
+      <header class="topbar">
+        <span class="kicker">Reading The Signals</span>
+        <span class="page">03</span>
+      </header>
+      <div class="content">
+        <div>
+          <h2 data-anim>몸은 따라오고 있어요. 발목과 회복은 천천히 맞춰요</h2>
+          <p class="lead" data-anim style="--delay: 1">심폐는 빨리 돌아왔지만 발목과 힘줄은 시간이 더 필요해요. 그래서 지금은 기록보다 반복이 먼저예요.</p>
+        </div>
+        <div class="signal-grid" data-anim style="--delay: 2">
+          <div class="signal-column">
+            <h3>좋은 점</h3>
+            <div class="mini-card"><span class="mini-title">10km 가능</span><span class="mini-body">06-13에 10.02km를 안정적으로 뛰었어요</span></div>
+            <div class="mini-card"><span class="mini-title">마지막 가속</span><span class="mini-body">마지막 1km에서 속도를 올렸어요</span></div>
+            <div class="mini-card"><span class="mini-title">통증 없음</span><span class="mini-body">10km 뒤에도 발목 통증이 없었어요</span></div>
+          </div>
+          <div class="signal-column risk">
+            <h3>조심할 점</h3>
+            <div class="mini-card"><span class="mini-title">높은 심박</span><span class="mini-body">10.02km 평균 심박은 155bpm이에요</span></div>
+            <div class="mini-card"><span class="mini-title">발목 신호</span><span class="mini-body">06-07에 발목 잠김이 있었어요</span></div>
+            <div class="mini-card"><span class="mini-title">피로</span><span class="mini-body">10km 다음 날 피로가 크게 왔어요</span></div>
+          </div>
+          <div class="signal-column ops">
+            <h3>이렇게 해요</h3>
+            <div class="mini-card"><span class="mini-title">심박 낮추기</span><span class="mini-body">낮은 심박으로 뛰는 시간을 늘려요</span></div>
+            <div class="mini-card"><span class="mini-title">주 3회</span><span class="mini-body">3주 동안은 주 3회만 뛰어요</span></div>
+            <div class="mini-card"><span class="mini-title">회복 포함</span><span class="mini-body">운동 뒤 회복까지 계획에 넣어요</span></div>
+          </div>
+        </div>
+      </div>
+      <footer class="foot">
+        <span>Sources: 2026-06-07/10/12/13/14 Daily; JTBC Dashboard; Running Log</span>
+        <span>03 / 06</span>
+      </footer>
+    </section>
+
+    <section class="slide">
+      <header class="topbar">
+        <span class="kicker">20-Week Roadmap</span>
+        <span class="page">04</span>
+      </header>
+      <div class="content">
+        <div>
+          <h2 data-anim>8월 전까지는 베이스를 만들어요</h2>
+          <p class="lead" data-anim style="--delay: 1">목표 페이스 훈련은 천천히 넣어요. 6~7월에는 발목을 지키고 10km를 편하게 만드는 데 집중해요.</p>
+        </div>
+        <div class="phase-row" data-anim style="--delay: 2">
+          <article class="phase card" style="--phase-color: var(--teal)">
+            <h3>Kickoff</h3>
+            <div class="date">06-15~06-28</div>
+            <p>주 3회 리듬<br>발목 상태 확인<br>Zone2 감각</p>
+            <span class="pill">14~20km</span>
+          </article>
+          <article class="phase card" style="--phase-color: var(--blue)">
+            <h3>Base</h3>
+            <div class="date">06-29~07-26</div>
+            <p>Easy run 늘리기<br>10km 편하게 뛰기</p>
+            <span class="pill">18~26km</span>
+          </article>
+          <article class="phase card" style="--phase-color: var(--amber)">
+            <h3>Build</h3>
+            <div class="date">07-27~08-30</div>
+            <p>짧은 템포런<br>가벼운 가속<br>근력 병행</p>
+            <span class="pill">24~32km</span>
+          </article>
+          <article class="phase card" style="--phase-color: var(--orange)">
+            <h3>Specific</h3>
+            <div class="date">08-31~10-04</div>
+            <p>5:30/km 근처에<br>천천히 적응</p>
+            <span class="pill orange">28~36km</span>
+          </article>
+          <article class="phase card" style="--phase-color: var(--primary)">
+            <h3>Sharpen<br>+ Taper</h3>
+            <div class="date">10-05~11-01</div>
+            <p>목표 페이스 확인<br>피로 줄이기</p>
+            <span class="pill orange">감량</span>
+          </article>
+        </div>
+        <div class="progression" data-anim style="--delay: 3">
+          <strong>빠른 훈련 흐름</strong>
+          <span>6월은 빠른 인터벌을 넣지 않아요. 7월은 짧은 가속만 확인하고, 8월부터 1km 반복을 시작해요.</span>
+        </div>
+      </div>
+      <footer class="foot">
+        <span>Sources: Training Plan; JTBC Dashboard; Race Strategy</span>
+        <span>04 / 06</span>
+      </footer>
+    </section>
+
+    <section class="slide">
+      <header class="topbar">
+        <span class="kicker">Operating Rules</span>
+        <span class="page">05</span>
+      </header>
+      <div class="content">
+        <div>
+          <h2 data-anim>주 3회만 뛰고, 대부분은 편하게 뛰어요</h2>
+          <p class="lead" data-anim style="--delay: 1">강한 하루보다 끊기지 않는 리듬이 더 중요해요.</p>
+        </div>
+        <div class="lane-row" data-anim style="--delay: 2">
+          <article class="lane card">
+            <span class="pill">Run A</span>
+            <h3>Easy / Zone2<br>5~8km</h3>
+            <p>심박을 낮춰요<br>회복력을 만들어요</p>
+          </article>
+          <article class="lane card">
+            <span class="pill">Run B</span>
+            <h3>속도 확인<br>5~8km</h3>
+            <p>짧게만 빨라져요<br>무리하지 않아요</p>
+          </article>
+          <article class="lane card">
+            <span class="pill">Run C</span>
+            <h3>Long easy<br>8~13km</h3>
+            <p>10km를 편하게<br>느끼는 몸을 만들어요</p>
+          </article>
+          <article class="lane card">
+            <span class="pill orange">Strength</span>
+            <h3>하체/코어<br>30~45분</h3>
+            <p>착지 충격을 버텨요<br>둔근과 햄스트링을 써요</p>
+          </article>
+        </div>
+        <div class="rule-grid" data-anim style="--delay: 3">
+          <article class="rule card"><h3>심박</h3><p>Easy run은 135~145bpm에 가깝게 뛰어요</p></article>
+          <article class="rule card blue"><h3>거리</h3><p>전주보다 약 10% 이내로 늘려요</p></article>
+          <article class="rule card orange"><h3>통증</h3><p>통증이 3/10 이상이면 강도를 낮춰요</p></article>
+          <article class="rule card orange"><h3>컨디션</h3><p>잠·수분·감기 기운이 나쁘면 페이스 목표를 내려놔요</p></article>
+        </div>
+      </div>
+      <footer class="foot">
+        <span>Sources: JTBC Dashboard; Training Plan; 2026-06-12 Daily; Weight+Running Curriculum</span>
+        <span>05 / 06</span>
+      </footer>
+    </section>
+
+    <section class="slide">
+      <header class="topbar">
+        <span class="kicker">Next Two Weeks</span>
+        <span class="page">06</span>
+      </header>
+      <div class="content">
+        <div>
+          <h2 data-anim>다음 2주는 회복부터 확인해요</h2>
+          <p class="lead" data-anim style="--delay: 1">06-13의 10km 기록만 보지 말고, 06-14의 피로도 같이 봐요.</p>
+        </div>
+        <div class="week-grid" data-anim style="--delay: 2">
+          <article class="week card">
+            <h3>W01 · 2026-06-15 ~ 06-21</h3>
+            <ul>
+              <li>10km 뒤 회복 상태를 먼저 봐요</li>
+              <li>Easy 5~6km 또는 산책으로 다시 시작해요</li>
+              <li>Zone2 6~7km는 심박 145 이하로 뛰어요</li>
+              <li>Long easy는 8km 정도만 해요</li>
+              <li>밤 근무가 있으면 다음 날은 쉬어요</li>
+            </ul>
+            <span class="pill">이렇게 끝내요: 무리 없이 3번 뛰어요</span>
+          </article>
+          <article class="week card">
+            <h3>W02 · 2026-06-22 ~ 06-28</h3>
+            <ul>
+              <li>Zone2 감각을 익혀요</li>
+              <li>8~10km easy run을 욕심내지 않고 뛰어요</li>
+              <li>대화 가능한 강도를 지켜요</li>
+              <li>다음 날 발목과 계단 이동을 확인해요</li>
+              <li>불편하면 걷기나 recovery jog로 바꿔요</li>
+            </ul>
+            <span class="pill orange">이렇게 끝내요: 8~10km 뒤에도 발목이 편해요</span>
+          </article>
+        </div>
+        <div class="tracker" data-anim style="--delay: 3">
+          <strong>볼 것</strong>
+          <span>Easy HR 135~145 · 10km 다음 날 발목/계단 · 5km 28분대 · 5:30/km 반복 시 자세 · 주간 거리 급증 여부</span>
+        </div>
+      </div>
+      <footer class="foot">
+        <span>Sources: JTBC Dashboard; Training Plan; 2026-06-13/14 Daily; Running Log</span>
+        <span>06 / 06</span>
+      </footer>
+    </section>
+  </main>
+
+  <nav id="nav-dots" aria-label="Slide navigation"></nav>
+  <div id="counter" aria-live="polite"></div>
+
+  <script>
+    const deck = document.getElementById("deck");
+    const slides = Array.from(document.querySelectorAll(".slide"));
+    const dots = document.getElementById("nav-dots");
+    const counter = document.getElementById("counter");
+    let current = 0;
+    let touchStartX = 0;
+
+    slides.forEach((slide, index) => {
+      slide.dataset.slide = String(index + 1);
+      const dot = document.createElement("button");
+      dot.type = "button";
+      dot.setAttribute("aria-label", `Go to slide ${index + 1}`);
+      dot.addEventListener("click", (event) => {
+        event.stopPropagation();
+        goTo(index);
+      });
+      dots.appendChild(dot);
+    });
+
+    function clamp(index) {
+      return Math.max(0, Math.min(index, slides.length - 1));
+    }
+
+    function applyInert(slide, isActive) {
+      slide.classList.toggle("is-active", isActive);
+      slide.setAttribute("aria-hidden", isActive ? "false" : "true");
+      if (isActive) {
+        slide.removeAttribute("inert");
+      } else {
+        slide.setAttribute("inert", "");
+      }
+    }
+
+    function goTo(index, updateHash = true) {
+      current = clamp(index);
+      deck.style.transform = `translateX(${-current * 100}vw)`;
+      slides.forEach((slide, slideIndex) => applyInert(slide, slideIndex === current));
+      Array.from(dots.children).forEach((dot, dotIndex) => {
+        dot.classList.toggle("is-active", dotIndex === current);
+        dot.setAttribute("aria-current", dotIndex === current ? "true" : "false");
+      });
+      counter.textContent = `${String(current + 1).padStart(2, "0")} / ${String(slides.length).padStart(2, "0")}`;
+      if (updateHash) history.replaceState(null, "", `#${current + 1}`);
+    }
+
+    function readHash() {
+      const number = Number(window.location.hash.replace("#", ""));
+      goTo(Number.isFinite(number) && number > 0 ? number - 1 : 0, false);
+    }
+
+    document.addEventListener("keydown", (event) => {
+      if (["ArrowRight", " ", "PageDown"].includes(event.key)) {
+        event.preventDefault();
+        goTo(current + 1);
+      }
+      if (["ArrowLeft", "PageUp"].includes(event.key)) {
+        event.preventDefault();
+        goTo(current - 1);
+      }
+      if (event.key === "Home") goTo(0);
+      if (event.key === "End") goTo(slides.length - 1);
+    });
+
+    window.addEventListener("click", (event) => {
+      if (event.target.closest("#nav-dots, [data-slide-target]")) return;
+      if (event.clientX > window.innerWidth * 0.66) goTo(current + 1);
+      if (event.clientX < window.innerWidth * 0.34) goTo(current - 1);
+    });
+
+    document.addEventListener("click", (event) => {
+      const target = event.target.closest("[data-slide-target]");
+      if (!target) return;
+      event.preventDefault();
+      event.stopPropagation();
+      goTo(Number(target.dataset.slideTarget) - 1);
+    });
+
+    window.addEventListener("touchstart", (event) => {
+      touchStartX = event.touches[0].clientX;
+    }, { passive: true });
+
+    window.addEventListener("touchend", (event) => {
+      const delta = event.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(delta) > 42) goTo(current + (delta < 0 ? 1 : -1));
+    }, { passive: true });
+
+    window.addEventListener("hashchange", readHash);
+    readHash();
+  </script>
+</body>
+</html>
