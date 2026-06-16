@@ -695,6 +695,108 @@
       line-height: 1.5;
     }
 
+    .kpi,
+    .card,
+    .panel,
+    .mini-card,
+    .progression,
+    .tracker {
+      position: relative;
+      overflow: hidden;
+      transition:
+        transform 0.22s ease,
+        border-color 0.22s ease,
+        background 0.22s ease;
+    }
+
+    [data-inspectable] {
+      cursor: pointer;
+      outline: none;
+    }
+
+    [data-inspectable]::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, 0.09), transparent 54%);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.18s ease;
+    }
+
+    [data-inspectable]:hover,
+    [data-inspectable]:focus-visible {
+      border-color: var(--line-strong);
+      background: var(--surface-elevated);
+      transform: translateY(-3px);
+    }
+
+    [data-inspectable]:hover::after,
+    [data-inspectable]:focus-visible::after {
+      opacity: 1;
+    }
+
+    [data-inspectable].is-pulsing {
+      animation: card-pulse 0.46s ease;
+    }
+
+    @keyframes card-pulse {
+      0% {
+        transform: translateY(-3px) scale(1);
+      }
+      50% {
+        transform: translateY(-5px) scale(1.012);
+      }
+      100% {
+        transform: translateY(-3px) scale(1);
+      }
+    }
+
+    .slide.is-active .bar {
+      animation: bar-rise 0.72s cubic-bezier(0.2, 0.85, 0.2, 1) both;
+      transform-origin: bottom;
+    }
+
+    .bar-slot:nth-of-type(3) .bar {
+      animation-delay: 0.08s;
+    }
+
+    .bar-slot:nth-of-type(4) .bar {
+      animation-delay: 0.16s;
+    }
+
+    @keyframes bar-rise {
+      from {
+        transform: scaleY(0.08);
+        opacity: 0.42;
+      }
+      to {
+        transform: scaleY(1);
+        opacity: 1;
+      }
+    }
+
+    #slide-progress {
+      position: fixed;
+      left: 0;
+      right: 0;
+      top: 0;
+      z-index: 32;
+      height: 2px;
+      background: transparent;
+      pointer-events: none;
+    }
+
+    #slide-progress span {
+      display: block;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--stripe-start), var(--primary));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.34s ease;
+    }
+
     #nav-dots {
       position: fixed;
       right: 24px;
@@ -736,6 +838,192 @@
       font-feature-settings: "tnum", "calt", "kern", "liga", "ss03";
     }
 
+    #palette-trigger {
+      position: fixed;
+      left: 24px;
+      bottom: 18px;
+      z-index: 24;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 34px;
+      padding: 6px 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+      color: var(--muted);
+      cursor: pointer;
+      transition:
+        border-color 0.18s ease,
+        background 0.18s ease,
+        transform 0.18s ease;
+    }
+
+    #palette-trigger:hover,
+    #palette-trigger:focus-visible {
+      border-color: var(--line-strong);
+      background: var(--surface-elevated);
+      color: var(--ink);
+      transform: translateY(-2px);
+      outline: none;
+    }
+
+    .keycap {
+      display: inline-flex;
+      min-width: 26px;
+      height: 22px;
+      padding: 0 7px;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      background: linear-gradient(180deg, var(--surface-strong), var(--surface));
+      color: var(--body-strong);
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 1;
+    }
+
+    #command-palette[hidden],
+    #inspector-toast[hidden] {
+      display: none;
+    }
+
+    #command-palette {
+      position: fixed;
+      inset: 0;
+      z-index: 40;
+      display: grid;
+      place-items: start center;
+      padding: 92px 24px 24px;
+    }
+
+    .palette-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(7, 8, 10, 0.72);
+      backdrop-filter: blur(18px);
+    }
+
+    .palette-card {
+      position: relative;
+      width: min(640px, 100%);
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--surface);
+    }
+
+    .palette-search {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 12px;
+      align-items: center;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      background: var(--surface-elevated);
+    }
+
+    #palette-input {
+      width: 100%;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      color: var(--ink);
+      font: inherit;
+      font-size: 16px;
+    }
+
+    #palette-input::placeholder {
+      color: var(--soft-2);
+    }
+
+    .palette-close {
+      min-width: 30px;
+      height: 30px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--surface);
+      color: var(--soft);
+      cursor: pointer;
+    }
+
+    .palette-results {
+      display: grid;
+      gap: 4px;
+      padding: 8px;
+      max-height: 390px;
+      overflow: auto;
+    }
+
+    .palette-row {
+      display: grid;
+      grid-template-columns: 42px 1fr auto;
+      gap: 12px;
+      align-items: center;
+      width: 100%;
+      padding: 10px 12px;
+      border: 0;
+      border-radius: 8px;
+      background: transparent;
+      color: var(--muted);
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .palette-row.is-selected,
+    .palette-row:hover,
+    .palette-row:focus-visible {
+      background: var(--surface-card);
+      color: var(--ink);
+      outline: none;
+    }
+
+    .palette-index {
+      color: var(--soft);
+      font-size: 13px;
+      font-feature-settings: "tnum", "calt", "kern", "liga", "ss03";
+    }
+
+    .palette-title {
+      display: block;
+      color: inherit;
+      font-size: 15px;
+      line-height: 1.35;
+    }
+
+    .palette-meta {
+      color: var(--soft);
+      font-size: 12px;
+    }
+
+    #inspector-toast {
+      position: fixed;
+      left: 24px;
+      bottom: 64px;
+      z-index: 26;
+      display: grid;
+      gap: 5px;
+      width: min(380px, calc(100vw - 48px));
+      padding: 14px 16px;
+      border: 1px solid var(--line-strong);
+      border-radius: 10px;
+      background: var(--surface-elevated);
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    #inspector-toast strong {
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    #inspector-toast span {
+      color: var(--muted);
+    }
+
     [data-anim] {
       opacity: 0;
       transform: translateY(14px);
@@ -756,7 +1044,10 @@
     @media (prefers-reduced-motion: reduce) {
       #deck,
       [data-anim],
-      .slide.is-active [data-anim] {
+      .slide.is-active [data-anim],
+      .slide.is-active .bar,
+      [data-inspectable],
+      #slide-progress span {
         transition: none;
         animation: none;
         opacity: 1;
@@ -820,6 +1111,10 @@
       #nav-dots {
         right: 12px;
       }
+
+      #command-palette {
+        padding-top: 72px;
+      }
     }
 
     @media (max-width: 640px) {
@@ -865,6 +1160,33 @@
         flex-direction: column;
         gap: 6px;
       }
+
+      #palette-trigger {
+        left: 22px;
+        bottom: 18px;
+      }
+
+      #counter {
+        right: 18px;
+      }
+
+      .palette-card {
+        border-radius: 12px;
+      }
+
+      .palette-row {
+        grid-template-columns: 34px 1fr;
+      }
+
+      .palette-meta {
+        display: none;
+      }
+
+      #inspector-toast {
+        left: 18px;
+        bottom: 60px;
+        width: calc(100vw - 36px);
+      }
     }
 
     @media print {
@@ -888,7 +1210,11 @@
       }
 
       #nav-dots,
-      #counter {
+      #counter,
+      #slide-progress,
+      #palette-trigger,
+      #command-palette,
+      #inspector-toast {
         display: none;
       }
 
@@ -1184,16 +1510,58 @@
     </section>
   </main>
 
+  <div id="slide-progress" aria-hidden="true"><span></span></div>
   <nav id="nav-dots" aria-label="Slide navigation"></nav>
+  <button id="palette-trigger" type="button" aria-label="슬라이드 검색 열기">
+    <span class="keycap">K</span>
+    <span>Jump</span>
+  </button>
   <div id="counter" aria-live="polite"></div>
+  <div id="inspector-toast" role="status" aria-live="polite" hidden>
+    <strong></strong>
+    <span></span>
+  </div>
+  <div id="command-palette" hidden>
+    <div class="palette-backdrop" data-palette-close></div>
+    <section class="palette-card" role="dialog" aria-label="슬라이드 검색">
+      <div class="palette-search">
+        <span class="keycap">⌘ K</span>
+        <input id="palette-input" type="search" autocomplete="off" placeholder="슬라이드 검색">
+        <button class="palette-close" type="button" data-palette-close aria-label="닫기">Esc</button>
+      </div>
+      <div id="palette-results" class="palette-results" role="listbox"></div>
+    </section>
+  </div>
 
   <script>
     const deck = document.getElementById("deck");
     const slides = Array.from(document.querySelectorAll(".slide"));
     const dots = document.getElementById("nav-dots");
     const counter = document.getElementById("counter");
+    const progressFill = document.querySelector("#slide-progress span");
+    const paletteTrigger = document.getElementById("palette-trigger");
+    const palette = document.getElementById("command-palette");
+    const paletteInput = document.getElementById("palette-input");
+    const paletteResults = document.getElementById("palette-results");
+    const inspector = document.getElementById("inspector-toast");
+    const inspectorTitle = inspector.querySelector("strong");
+    const inspectorBody = inspector.querySelector("span");
     let current = 0;
     let touchStartX = 0;
+    let paletteSelection = 0;
+    let paletteMatches = [];
+    let inspectorTimer = 0;
+
+    const slideMeta = slides.map((slide, index) => {
+      const heading = slide.querySelector("h1, h2");
+      const kicker = slide.querySelector(".kicker");
+      return {
+        index,
+        title: heading ? heading.innerText.replace(/\s+/g, " ").trim() : `Slide ${index + 1}`,
+        kicker: kicker ? kicker.textContent.replace(/\s+/g, " ").trim() : "",
+        number: String(index + 1).padStart(2, "0")
+      };
+    });
 
     slides.forEach((slide, index) => {
       slide.dataset.slide = String(index + 1);
@@ -1206,6 +1574,10 @@
       });
       dots.appendChild(dot);
     });
+
+    function isTypingTarget(target) {
+      return target instanceof Element && Boolean(target.closest("input, textarea, [contenteditable='true']"));
+    }
 
     function clamp(index) {
       return Math.max(0, Math.min(index, slides.length - 1));
@@ -1230,6 +1602,8 @@
         dot.setAttribute("aria-current", dotIndex === current ? "true" : "false");
       });
       counter.textContent = `${String(current + 1).padStart(2, "0")} / ${String(slides.length).padStart(2, "0")}`;
+      progressFill.style.transform = `scaleX(${(current + 1) / slides.length})`;
+      closePalette(false);
       if (updateHash) history.replaceState(null, "", `#${current + 1}`);
     }
 
@@ -1238,7 +1612,188 @@
       goTo(Number.isFinite(number) && number > 0 ? number - 1 : 0, false);
     }
 
+    function normalize(text) {
+      return text.toLowerCase().replace(/\s+/g, " ").trim();
+    }
+
+    function renderPalette() {
+      const query = normalize(paletteInput.value);
+      paletteMatches = slideMeta.filter((item) => {
+        const target = normalize(`${item.number} ${item.kicker} ${item.title}`);
+        return !query || target.includes(query);
+      });
+      paletteSelection = Math.min(Math.max(paletteSelection, 0), Math.max(paletteMatches.length - 1, 0));
+      paletteResults.replaceChildren();
+
+      if (!paletteMatches.length) {
+        const empty = document.createElement("div");
+        empty.className = "palette-row";
+        empty.textContent = "맞는 슬라이드가 없어요";
+        paletteResults.appendChild(empty);
+        return;
+      }
+
+      paletteMatches.forEach((item, rowIndex) => {
+        const row = document.createElement("button");
+        row.type = "button";
+        row.className = `palette-row${rowIndex === paletteSelection ? " is-selected" : ""}`;
+        row.setAttribute("role", "option");
+        row.setAttribute("aria-selected", rowIndex === paletteSelection ? "true" : "false");
+        row.dataset.slideTarget = String(item.index + 1);
+
+        const index = document.createElement("span");
+        index.className = "palette-index";
+        index.textContent = `#${item.number}`;
+
+        const title = document.createElement("span");
+        title.className = "palette-title";
+        title.textContent = item.title;
+
+        const meta = document.createElement("span");
+        meta.className = "palette-meta";
+        meta.textContent = item.kicker;
+
+        row.append(index, title, meta);
+        row.addEventListener("click", (event) => {
+          event.stopPropagation();
+          goTo(item.index);
+        });
+        row.addEventListener("mouseenter", () => {
+          paletteSelection = rowIndex;
+          renderPalette();
+        });
+        paletteResults.appendChild(row);
+      });
+    }
+
+    function openPalette() {
+      palette.hidden = false;
+      paletteSelection = current;
+      paletteInput.value = "";
+      renderPalette();
+      requestAnimationFrame(() => paletteInput.focus());
+    }
+
+    function closePalette(restoreFocus = true) {
+      if (palette.hidden) return;
+      palette.hidden = true;
+      if (restoreFocus) paletteTrigger.focus();
+    }
+
+    function choosePaletteRow() {
+      if (!paletteMatches.length) return;
+      goTo(paletteMatches[paletteSelection].index);
+    }
+
+    function extractInspectText(card) {
+      const titleNode = card.querySelector("h3, .label, .mini-title, strong");
+      const title = titleNode ? titleNode.textContent.trim() : "상세 보기";
+      const details = Array.from(card.querySelectorAll(".value, .detail, .date, .mini-body, p, li, .pill"))
+        .map((node) => node.textContent.replace(/\s+/g, " ").trim())
+        .filter(Boolean)
+        .filter((text) => text !== title)
+        .slice(0, 4);
+      return {
+        title,
+        detail: details.join(" · ") || card.textContent.replace(/\s+/g, " ").trim()
+      };
+    }
+
+    function showInspector(card) {
+      const { title, detail } = extractInspectText(card);
+      inspectorTitle.textContent = title;
+      inspectorBody.textContent = detail.length > 150 ? `${detail.slice(0, 150)}...` : detail;
+      inspector.hidden = false;
+      card.classList.remove("is-pulsing");
+      void card.offsetWidth;
+      card.classList.add("is-pulsing");
+      window.clearTimeout(inspectorTimer);
+      inspectorTimer = window.setTimeout(() => {
+        inspector.hidden = true;
+      }, 3200);
+    }
+
+    function makeCardsInteractive() {
+      const cards = document.querySelectorAll(".kpi, .card, .panel, .mini-card, .progression, .tracker");
+      cards.forEach((card) => {
+        card.dataset.inspectable = "true";
+        card.tabIndex = 0;
+        card.setAttribute("role", "button");
+        card.setAttribute("aria-label", `${extractInspectText(card).title} 살펴보기`);
+        card.addEventListener("pointermove", (event) => {
+          const rect = card.getBoundingClientRect();
+          card.style.setProperty("--mx", `${event.clientX - rect.left}px`);
+          card.style.setProperty("--my", `${event.clientY - rect.top}px`);
+        });
+        card.addEventListener("click", (event) => {
+          event.stopPropagation();
+          showInspector(card);
+        });
+        card.addEventListener("keydown", (event) => {
+          if (!["Enter", " "].includes(event.key)) return;
+          event.preventDefault();
+          event.stopPropagation();
+          showInspector(card);
+        });
+      });
+    }
+
+    paletteTrigger.addEventListener("click", (event) => {
+      event.stopPropagation();
+      openPalette();
+    });
+
+    paletteInput.addEventListener("input", () => {
+      paletteSelection = 0;
+      renderPalette();
+    });
+
+    palette.addEventListener("click", (event) => {
+      if (event.target.closest("[data-palette-close]")) closePalette();
+    });
+
     document.addEventListener("keydown", (event) => {
+      const paletteOpen = !palette.hidden;
+
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
+        event.preventDefault();
+        openPalette();
+        return;
+      }
+
+      if (!paletteOpen && !isTypingTarget(event.target) && ["k", "/"].includes(event.key.toLowerCase())) {
+        event.preventDefault();
+        openPalette();
+        return;
+      }
+
+      if (paletteOpen) {
+        if (event.key === "Escape") {
+          event.preventDefault();
+          closePalette();
+          return;
+        }
+        if (event.key === "ArrowDown") {
+          event.preventDefault();
+          paletteSelection = (paletteSelection + 1) % Math.max(paletteMatches.length, 1);
+          renderPalette();
+          return;
+        }
+        if (event.key === "ArrowUp") {
+          event.preventDefault();
+          paletteSelection = (paletteSelection - 1 + Math.max(paletteMatches.length, 1)) % Math.max(paletteMatches.length, 1);
+          renderPalette();
+          return;
+        }
+        if (event.key === "Enter") {
+          event.preventDefault();
+          choosePaletteRow();
+          return;
+        }
+      }
+
+      if (isTypingTarget(event.target)) return;
+
       if (["ArrowRight", " ", "PageDown"].includes(event.key)) {
         event.preventDefault();
         goTo(current + 1);
@@ -1252,7 +1807,7 @@
     });
 
     window.addEventListener("click", (event) => {
-      if (event.target.closest("#nav-dots, [data-slide-target]")) return;
+      if (event.target.closest("#nav-dots, [data-slide-target], #palette-trigger, #command-palette, #inspector-toast, [data-inspectable]")) return;
       if (event.clientX > window.innerWidth * 0.66) goTo(current + 1);
       if (event.clientX < window.innerWidth * 0.34) goTo(current - 1);
     });
@@ -1266,15 +1821,18 @@
     });
 
     window.addEventListener("touchstart", (event) => {
+      if (!palette.hidden) return;
       touchStartX = event.touches[0].clientX;
     }, { passive: true });
 
     window.addEventListener("touchend", (event) => {
+      if (!palette.hidden) return;
       const delta = event.changedTouches[0].clientX - touchStartX;
       if (Math.abs(delta) > 42) goTo(current + (delta < 0 ? 1 : -1));
     }, { passive: true });
 
     window.addEventListener("hashchange", readHash);
+    makeCardsInteractive();
     readHash();
   </script>
 </body>
