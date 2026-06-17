@@ -348,7 +348,7 @@
 
     .bar-chart {
       display: grid;
-      grid-template-columns: 54px repeat(3, minmax(0, 1fr));
+      grid-template-columns: 54px repeat(4, minmax(0, 1fr));
       grid-template-rows: 1fr auto;
       gap: 12px 24px;
       height: 250px;
@@ -1144,7 +1144,7 @@
       }
 
       .bar-chart {
-        grid-template-columns: 40px repeat(3, minmax(0, 1fr));
+        grid-template-columns: 40px repeat(4, minmax(0, 1fr));
         gap: 10px;
         height: 210px;
       }
@@ -1186,6 +1186,60 @@
         left: 18px;
         bottom: 60px;
         width: calc(100vw - 36px);
+      }
+
+      .cover .content {
+        align-content: start;
+        gap: 14px;
+      }
+
+      .cover-grid {
+        gap: 16px;
+      }
+
+      .cover .hero-copy {
+        gap: 12px;
+      }
+
+      .cover h1 {
+        font-size: 34px;
+        line-height: 1.12;
+      }
+
+      .cover .lead {
+        font-size: 14px;
+        line-height: 1.45;
+      }
+
+      .cover .judgement {
+        padding: 14px 16px;
+      }
+
+      .cover .judgement ul {
+        margin-top: 8px;
+        font-size: 13px;
+        line-height: 1.45;
+      }
+
+      .cover .kpi-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+        margin-top: 8px;
+      }
+
+      .cover .kpi {
+        min-height: 88px;
+        padding: 12px;
+      }
+
+      .cover .value {
+        font-size: 28px;
+      }
+
+      .cover .detail {
+        margin-top: 6px;
+        font-size: 11px;
+        line-height: 1.35;
       }
     }
 
@@ -1243,16 +1297,16 @@
             <ul>
               <li>10km 완주는 확인했어요</li>
               <li>다음 목표는 5:30/km예요</li>
-              <li>6~7월은 베이스를 만들어요</li>
+              <li>06-16에 루틴 복귀를 확인했어요</li>
               <li>발목이 불편하면 강도를 낮춰요</li>
             </ul>
           </aside>
         </div>
         <div class="kpi-row" data-anim style="--delay: 3">
           <article class="kpi">
-            <span class="label">현재 기록</span>
+            <span class="label">기준 거리</span>
             <span class="value">10.02km</span>
-            <span class="detail">06-13 · 발목 통증 없음</span>
+            <span class="detail">06-13 완주 · 06-16 복귀 확인</span>
           </article>
           <article class="kpi">
             <span class="label">목표 기록</span>
@@ -1272,7 +1326,7 @@
         </div>
       </div>
       <footer class="foot">
-        <span>Sources: 2026-06-13 Daily; JTBC Dashboard; Training Plan; Race Strategy</span>
+        <span>Sources: 2026-06-13 Daily; 2026-06-16 Daily; JTBC Dashboard; Training Plan; Race Strategy</span>
         <span>러닝 기록 기반 HTML 슬라이드</span>
       </footer>
     </section>
@@ -1285,7 +1339,7 @@
       <div class="content">
         <div>
           <h2 data-anim>거리는 늘었어요. 이제 심박과 회복을 봐요</h2>
-          <p class="lead" data-anim style="--delay: 1">6월에는 5.14km에서 10.02km까지 늘렸어요. 다음 목표는 같은 거리를 더 편하게 뛰는 거예요.</p>
+          <p class="lead" data-anim style="--delay: 1">6월에는 5.14km에서 10.02km까지 늘렸어요. 06-16에는 아침 6.00km와 퇴근길 3.52km를 낮은 강도로 뛰었어요.</p>
         </div>
         <div class="two-col">
           <article class="panel chart-panel" data-anim style="--delay: 2">
@@ -1295,36 +1349,37 @@
               <div class="bar-slot"><div class="bar" style="height: 42.8%" title="06-06: 5.14km"></div></div>
               <div class="bar-slot"><div class="bar" style="height: 61.6%" title="06-07: 7.39km"></div></div>
               <div class="bar-slot"><div class="bar" style="height: 83.5%" title="06-13: 10.02km"></div></div>
-              <span></span><span class="bar-label">06-06</span><span class="bar-label">06-07</span><span class="bar-label">06-13</span>
+              <div class="bar-slot"><div class="bar" style="height: 79.3%" title="06-16: 9.52km total"></div></div>
+              <span></span><span class="bar-label">06-06</span><span class="bar-label">06-07</span><span class="bar-label">06-13</span><span class="bar-label">06-16</span>
             </div>
-            <p class="chart-note">06-13의 핵심은 기록보다 발목이 괜찮았다는 점이에요.</p>
+            <p class="chart-note">06-16은 기록 향상이 아니라 루틴 복귀예요. 저녁 3.52km는 이동 겸 회복성 조깅으로 봐요.</p>
           </article>
           <div class="side-stack" data-anim style="--delay: 3">
             <div class="metric-row">
               <article class="kpi">
-                <span class="label">06-07 HR</span>
-                <span class="value orange">157</span>
-                <span class="detail">bpm · 7.39km</span>
+                <span class="label">06-16 AM HR</span>
+                <span class="value">146</span>
+                <span class="detail">bpm · 6.00km</span>
               </article>
               <article class="kpi">
-                <span class="label">06-13 HR</span>
-                <span class="value orange">155</span>
-                <span class="detail">bpm · 10.02km</span>
+                <span class="label">06-16 PM HR</span>
+                <span class="value blue">132</span>
+                <span class="detail">bpm · 3.52km</span>
               </article>
             </div>
             <article class="card signal-card">
               <h3>좋은 점</h3>
-              <p>10.02km를 뛰고도 발목 통증이 없었어요. 끝나고도 여유가 남았어요.</p>
+              <p>10km 이후에도 다시 뛰었어요. 아침 러닝 뒤에는 피곤함보다 활력이 돌았어요.</p>
             </article>
             <article class="card signal-card warn">
               <h3>주의할 점</h3>
-              <p>06-07에는 발목 잠김이 있었고, 06-14에는 피로가 크게 왔어요.</p>
+              <p>하루 총 9.52km예요. 남은 주에는 거리보다 피로와 발목 반응을 먼저 봐요.</p>
             </article>
           </div>
         </div>
       </div>
       <footer class="foot">
-        <span>Sources: 2026-06-06 Daily; 2026-06-07 Daily; 2026-06-13 Daily; Running Log</span>
+        <span>Sources: 2026-06-06 Daily; 2026-06-07 Daily; 2026-06-13 Daily; 2026-06-16 Daily; Running Log</span>
         <span>02 / 06</span>
       </footer>
     </section>
@@ -1343,25 +1398,25 @@
           <div class="signal-column">
             <h3>좋은 점</h3>
             <div class="mini-card"><span class="mini-title">10km 가능</span><span class="mini-body">06-13에 10.02km를 안정적으로 뛰었어요</span></div>
-            <div class="mini-card"><span class="mini-title">마지막 가속</span><span class="mini-body">마지막 1km에서 속도를 올렸어요</span></div>
+            <div class="mini-card"><span class="mini-title">루틴 복귀</span><span class="mini-body">06-16에 낮은 강도로 9.52km를 움직였어요</span></div>
             <div class="mini-card"><span class="mini-title">통증 없음</span><span class="mini-body">10km 뒤에도 발목 통증이 없었어요</span></div>
           </div>
           <div class="signal-column risk">
             <h3>조심할 점</h3>
             <div class="mini-card"><span class="mini-title">높은 심박</span><span class="mini-body">10.02km 평균 심박은 155bpm이에요</span></div>
             <div class="mini-card"><span class="mini-title">발목 신호</span><span class="mini-body">06-07에 발목 잠김이 있었어요</span></div>
-            <div class="mini-card"><span class="mini-title">피로</span><span class="mini-body">10km 다음 날 피로가 크게 왔어요</span></div>
+            <div class="mini-card"><span class="mini-title">누적 피로</span><span class="mini-body">06-16은 하루 총 9.52km라 남은 주에 피로를 봐야 해요</span></div>
           </div>
           <div class="signal-column ops">
             <h3>이렇게 해요</h3>
             <div class="mini-card"><span class="mini-title">심박 낮추기</span><span class="mini-body">낮은 심박으로 뛰는 시간을 늘려요</span></div>
             <div class="mini-card"><span class="mini-title">주 3회</span><span class="mini-body">3주 동안은 주 3회만 뛰어요</span></div>
-            <div class="mini-card"><span class="mini-title">회복 포함</span><span class="mini-body">운동 뒤 회복까지 계획에 넣어요</span></div>
+            <div class="mini-card"><span class="mini-title">퇴근길 기준</span><span class="mini-body">가방이 무거우면 걷기나 대중교통으로 바꿔요</span></div>
           </div>
         </div>
       </div>
       <footer class="foot">
-        <span>Sources: 2026-06-07/10/12/13/14 Daily; JTBC Dashboard; Running Log</span>
+        <span>Sources: 2026-06-07/10/12/13/14/16 Daily; JTBC Dashboard; Running Log</span>
         <span>03 / 06</span>
       </footer>
     </section>
@@ -1472,19 +1527,19 @@
       <div class="content">
         <div>
           <h2 data-anim>다음 2주는 회복부터 확인해요</h2>
-          <p class="lead" data-anim style="--delay: 1">06-13의 10km 기록만 보지 말고, 06-14의 피로도 같이 봐요.</p>
+          <p class="lead" data-anim style="--delay: 1">06-16에는 다시 뛰었어요. 이제 남은 주는 더 밀기보다 회복 반응을 확인해요.</p>
         </div>
         <div class="week-grid" data-anim style="--delay: 2">
           <article class="week card">
             <h3>W01 · 2026-06-15 ~ 06-21</h3>
             <ul>
-              <li>10km 뒤 회복 상태를 먼저 봐요</li>
-              <li>Easy 5~6km 또는 산책으로 다시 시작해요</li>
-              <li>Zone2 6~7km는 심박 145 이하로 뛰어요</li>
-              <li>Long easy는 8km 정도만 해요</li>
-              <li>밤 근무가 있으면 다음 날은 쉬어요</li>
+              <li>06-16에 아침 6.00km와 퇴근길 3.52km를 뛰었어요</li>
+              <li>남은 주에는 회복 상태를 먼저 봐요</li>
+              <li>다음 러닝은 5~7km easy로 둬요</li>
+              <li>가능하면 평균 심박 145bpm 이하를 맞춰요</li>
+              <li>가방이 무거운 퇴근길은 걷기나 대중교통으로 바꿔요</li>
             </ul>
-            <span class="pill">이렇게 끝내요: 무리 없이 3번 뛰어요</span>
+            <span class="pill">이렇게 끝내요: 러닝한 날을 3일 안쪽으로 둬요</span>
           </article>
           <article class="week card">
             <h3>W02 · 2026-06-22 ~ 06-28</h3>
@@ -1504,7 +1559,7 @@
         </div>
       </div>
       <footer class="foot">
-        <span>Sources: JTBC Dashboard; Training Plan; 2026-06-13/14 Daily; Running Log</span>
+        <span>Sources: JTBC Dashboard; Training Plan; 2026-06-13/14/16 Daily; Running Log</span>
         <span>06 / 06</span>
       </footer>
     </section>
